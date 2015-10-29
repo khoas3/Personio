@@ -3,6 +3,8 @@
 
 </head>
 <body>
-Default controller
+Default controller <br />
+
+Go to <a href="/calculation">Calculate remaining vacation of employee</a>
 </body>
 </html>

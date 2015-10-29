@@ -2,7 +2,7 @@
 
 //namespace Personio\Libraries;
 
-class VacationCalculation {
+class Vacation {
 	const WORKDAYS_PER_WEEK = 5;
 	const VOCATION_FULL_YEAR = 24;
 	const VOCATION_PER_MONTH = 2;

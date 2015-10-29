@@ -13,7 +13,7 @@ ini_set('display_errors', 'On');
 require dirname(__FILE__).'/Libraries/Loader.php';
 require dirname(__FILE__).'/Libraries/BaseController.php';
 require dirname(__FILE__).'/Libraries/View.php';
-require dirname(__FILE__).'/Libraries/VacationCalculation.php';
+require dirname(__FILE__).'/Libraries/Vacation.php';
 //use Personio\Libraries\Loader;
 
 $loader = new Loader(); //create the loader object

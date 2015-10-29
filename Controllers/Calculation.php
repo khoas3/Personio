@@ -14,7 +14,7 @@ class CalculationController extends BaseController {
         {
             $s = new \DateTime('2015-10-29');
             $e = new \DateTime('2015-12-29');
-            $c = new VacationCalculation($s, $e);
+            $c = new Vacation($s, $e);
             $c->calculate();
         }
         $this->view->output('test');
