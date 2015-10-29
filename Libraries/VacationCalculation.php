@@ -1,20 +1,21 @@
 <?php 
 
-namespace Personio\Libraries;
-class VocationCalculation {
+//namespace Personio\Libraries;
+
+class VacationCalculation {
 	const WORKDAYS_PER_WEEK = 5;
 	const VOCATION_FULL_YEAR = 24;
 	const VOCATION_PER_MONTH = 2;
 	const PROBATION_MONTH_PERIOD = 6;		
 	
 	private $start_date;
-	private $calc_date;	
+	private $calc_date;
 	private $remaining_vocation_days = 0;
 	
 	public function __construct(\DateTime $start_date, \DateTime $calc_date)
 	{
 		if ($start_date > $calc_date) {
-			throw new InvalidArgumentException('Start date cannot be greater than calculation date.');
+			throw new \InvalidArgumentException('Start date cannot be greater than calculation date.');
 		}
 		$this->start_date = $start_date;
 		$this->calc_date = $calc_date;
@@ -119,9 +120,3 @@ class VocationCalculation {
         return $wd;
     }
 }
-
-$s = new \DateTime('2015-10-29');
-$e = new \DateTime('2015-12-29');
-$c = new VocationCalculation($s, $e);
-$c->calculate();
-
