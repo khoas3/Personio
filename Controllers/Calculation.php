@@ -2,8 +2,6 @@
 
 //namespace Personio\Controllers;
 
-//use Personio\Libraries\BaseController;
-
 class CalculationController extends BaseController {
     public function __construct($action, $urlValues)
     {
@@ -12,6 +10,13 @@ class CalculationController extends BaseController {
 
     public function index()
     {
+        if (!empty($_POST))
+        {
+            $s = new \DateTime('2015-10-29');
+            $e = new \DateTime('2015-12-29');
+            $c = new VacationCalculation($s, $e);
+            $c->calculate();
+        }
         $this->view->output('test');
     }
 }

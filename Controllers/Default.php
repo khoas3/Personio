@@ -8,6 +8,6 @@ class DefaultController extends BaseController {
 
     public function index()
     {
-        $this->view->output('test');
+        $this->view->output('Default Controller');
     }
 }
