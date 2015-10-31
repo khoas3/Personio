@@ -26,7 +26,7 @@ class Vacation {
      */
     public function calculate()
     {
-        echo $this->numberOfVocation($this->start_date, $this->calc_date);
+        return $this->numberOfVocation($this->start_date, $this->calc_date);
     }
 
     /**
