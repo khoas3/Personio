@@ -11,6 +11,7 @@ class Vacation {
 	private $start_date;
 	private $calc_date;
 	private $remaining_vocation_days = 0;
+    private $vacation = [];
 	
 	public function __construct(\DateTime $start_date, \DateTime $calc_date)
 	{
@@ -19,62 +20,48 @@ class Vacation {
 		}
 		$this->start_date = $start_date;
 		$this->calc_date = $calc_date;
-	}	
+	}
+
+    public function init()
+    {
+        return $this->vacation = [
+            'vacation' => [],
+            'vacation_taken' => []
+        ];
+    }
 	
 	/**
      * Void main
      */
     public function calculate()
     {
-        return $this->numberOfVocation($this->start_date, $this->calc_date);
+        return $this->accumulatedVacation($this->start_date, $this->calc_date);
     }
 
     /**
-     * @param \DateTime $start_date
-     * @param \DateTime $calc_date
+     * @param DateTime $start_date
+     * @param DateTime $calc_date
      * @return int
      */
-    private function numberOfVocation(\DateTime $start_date, \DateTime $calc_date)
+    private function accumulatedVacation(\DateTime $start_date, \DateTime $calc_date)
     {
+        $start_year = intval($start_date->format('Y'));
+        $calc_year = intval($calc_date->format('Y'));
+        // Last day in last year.
+        $last_year = $calc_year - $start_year > 0 ? ($calc_year - 1).'-12-31' : 0;
         $number_of_m = $this->workedMonth($start_date, $calc_date);
         if($number_of_m >= self::PROBATION_MONTH_PERIOD){
-            $this->remaining_vocation_days = self::VOCATION_FULL_YEAR;
-            // Plus additional previous vocation if has.
-            $start_year = intval($start_date->format('Y'));
-            $calc_year = intval($calc_date->format('Y'));
-            if($calc_year - $start_year > 0) {
-                $vm_in_previous_year = $this->accumulatedVocation($start_date, $calc_year);					
-                // Plus here.
-                $this->remaining_vocation_days += $vm_in_previous_year;
-            }
+            $vacation_months = self::VOCATION_FULL_YEAR;
         } else {
-            $this->remaining_vocation_days = $number_of_m * self::VOCATION_PER_MONTH;
+            $vacation_months = $number_of_m * self::VOCATION_PER_MONTH;
         }
 
-        return $this->remaining_vocation_days;
-    }
+        if($number_of_m < 12 || $last_year == 0){
+            return $vacation_months;
+        }
 
-    /**
-     * @param \DateTime $start_date
-     * @param $calc_year
-     * @return int
-     */
-    private function accumulatedVocation(\DateTime $start_date, $calc_year)
-    {
-        // The last day in year.
-        $lastDay_in_year = ($calc_year - 1).'-12-31';
-        $py = new \DateTime($lastDay_in_year);
-        $m_in_previous_year = $this->workedMonth($start_date, $py);        
-        if($m_in_previous_year >= self::PROBATION_MONTH_PERIOD){
-            $vm_in_previous_year = self::VOCATION_FULL_YEAR;
-        } else {
-            $vm_in_previous_year = $m_in_previous_year * self::VOCATION_PER_MONTH;
-        }
-		if($m_in_previous_year < 12){
-			return $vm_in_previous_year;
-        }
-		
-        return $vm_in_previous_year + $this->accumulatedVocation($start_date, $calc_year - 1);
+        $last_year_dt = new \DateTime($last_year);
+        return $vacation_months + $this->accumulatedVacation($start_date, $last_year_dt);
     }
 
     /**
