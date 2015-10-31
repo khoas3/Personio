@@ -17,8 +17,9 @@ class CalculationController extends BaseController {
                 $s = new \DateTime($_POST['hire_date']);
                 $e = new \DateTime($_POST['calculation_date']);
                 $c = new Vacation($s, $e);
-                $ret = $c->calculate();
-                echo json_encode($ret);
+                $c->calculate();
+                $vacation = $c->getVacation();
+                echo json_encode($vacation);
             }
             exit(die);
         }
