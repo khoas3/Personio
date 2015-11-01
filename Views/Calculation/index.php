@@ -41,16 +41,27 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group input-group">
-                            <input type="text" name="start_vacation[]" class="form-control date" id="start_vacation" placeholder="Start vacation (Ex: 2009-05-19)">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                    <div class="vacation-period">
+                        <div class="vacation-block">
+                            <div class="col-md-5">
+                                <div class="form-group input-group">
+                                    <input type="text" name="start_vacation[]" class="form-control date" placeholder="Start vacation (Ex: 2009-05-19)">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group input-group">
+                                    <input type="text" name="end_vacation[]" class="form-control date" placeholder="End vacation (Ex: 2015-05-19)">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col-md-6">
-                        <div class="form-group input-group">
-                            <input type="text" name="end_vacation[]" class="form-control date" id="end_vacation" placeholder="End vacation (Ex: 2015-05-19)">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                        <div class="form-group">
+                            <a id="add-more" href="#">+ add more</a>
                         </div>
                     </div>
                 </div>
@@ -85,21 +96,42 @@
         changeYear: true,
         dateFormat: "yy-mm-dd"
     });
-    var calculation = function(){
-        $('form').submit(function(e){
-            e.preventDefault();
-            $.ajax({
-               method: "POST",
-               url: '/calculation',
-               data: $( this ).serializeArray()
-            }).done(function(msg){
-                console.log(msg);
-            })
-            ;
-            return false;
+    // Submit form by Ajax.
+    $('form').submit(function(e){
+        e.preventDefault();
+        $.ajax({
+            method: "POST",
+            url: '/calculation',
+            data: $( this ).serializeArray()
+        }).done(function(msg){
+            console.log(msg);
         })
-    };
-    calculation();
+        ;
+        return false;
+    });
+    // Add more vacation period.
+    $('#add-more').on('click', function(e){
+        e.preventDefault();
+        var rm_btn_html = '<div class="col-md-2">';
+            rm_btn_html+='<a href="#" class="btn bg-danger remove-btn">Remove</a>';
+            rm_btn_html+='</div>';
+        var rm_btn = $(rm_btn_html);
+        var $clone = $('.vacation-block').first().clone(true).append(rm_btn);
+        var datepicker = $clone.find("input[type='text']");
+        $.each(datepicker, function(){
+            var $this = $(this);
+            $this.datepicker("destroy");
+            $this.removeAttr("id");
+            $this.datepicker();
+            $this.val("");
+        });
+        $('.vacation-period').append($clone);
+        rm_btn.click(function(e){
+            e.preventDefault()
+            $(this).closest('div .vacation-block').remove();
+        });
+    });
+
 </script>
 </body>
 </html>
