@@ -22,8 +22,9 @@ $( document ).ready(function() {
         });
         return ret;
     };
-// Submit form by Ajax.
+    // Submit form by Ajax.
     $('form').submit(function(e){
+        $('.bs-example').empty();
         e.preventDefault();
         if(form_validate()){
             $.ajax({
@@ -31,11 +32,24 @@ $( document ).ready(function() {
                 url: '/calculation',
                 data: $( this ).serializeArray()
             }).done(function(msg){
-                console.log(msg);
+                decorator(msg);
             });
         }
         return false;
     });
+    var decorator = function(msg){
+        var start_working = $('#hire_date').val();
+        var calculation_date = $('#calculation_date').val();
+        var decoration = $('.bs-example');
+        var $msg = $.parseJSON(msg);
+        decoration.html('<p class="text-info">You work from: <strong>'+start_working+'</strong> to: <strong>'+calculation_date+'</strong></p>');
+        $.each($msg.vacation, function (i,v) {
+            decoration.append('<p class="text-success">Year '+i+', you have <strong>'+ v +'</strong> remaining vacation.</p>');
+        });
+        $.each($msg.vacation_taken, function (i,v) {
+            decoration.append('<p class="text-danger">'+ v +'</p>');
+        });
+    };
 // Add more vacation period.
     $('#add-more').on('click', function(e){
         e.preventDefault();
@@ -49,12 +63,16 @@ $( document ).ready(function() {
             var $this = $(this);
             $this.datepicker("destroy");
             $this.removeAttr("id");
-            $this.datepicker();
+            $this.datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: "yy-mm-dd"
+            });
             $this.val("");
         });
         $('.vacation-period').append($clone);
         rm_btn.click(function(e){
-            e.preventDefault()
+            e.preventDefault();
             $(this).closest('div .vacation-block').remove();
         });
     });

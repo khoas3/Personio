@@ -68,7 +68,7 @@
                 <div class="row">
                     <div class="col-md-12 text-center">
                         <div class="bs-example">
-                            <p class="text-info">Hello world</p>
+                            <p class="text-info">Please enter Hire date and Calculation date above.</p>
                         </div>
                         <div class="highlight">
                             <pre>

@@ -69,25 +69,33 @@ class Vacation {
     /**
      * @param $year
      * @param $num
-     * @param string $default
      * @return $this
      */
-    public function addVacation($year, $num, $default = 'vacation')
+    public function addVacation($year, $num )
     {
-        $this->vacation[$default][$year] = $num;
+        $this->vacation['vacation'][$year] = $num;
         return $this;
     }
 
     /**
      * @param $year
-     * @param string $default
+     */
+    public function removeVacation($year)
+    {
+        if(isset($this->vacation['vacation'][$year])){
+            unset($this->vacation['vacation'][$year]);
+        }
+    }
+
+    /**
+     * @param $key
+     * @param $val
      * @return $this
      */
-    public function removeVacation($year, $default = 'vacation')
+    public function addMessage($msg)
     {
-        if(isset($this->vacation[$default][$year])){
-            unset($this->vacation[$default][$year]);
-        }
+        $this->vacation['vacation_taken'][] = $msg;
+        return $this;
     }
 
     /**
@@ -114,6 +122,32 @@ class Vacation {
                         $this->removeVacation($i);
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * @param array $start_vacation
+     * @param array $end_vacation
+     */
+    public function subtractVacation(array $start_vacation, array $end_vacation)
+    {
+        if(!empty($start_vacation) && !empty($end_vacation)){
+            $days = 0;
+            foreach($start_vacation as $k => $v){
+                $days += $this->weekdays($start_vacation[$k], $end_vacation[$k]);
+            }
+            // Subtract prev year first if has.
+            ksort($this->vacation['vacation']);
+            foreach($this->vacation['vacation'] as $k => $v){
+                $sub = $v - $days;
+                // Day off less than or equal vacation.
+                if($sub >= 0){
+                    $this->vacation['vacation'][$k] = $sub;
+                    break;
+                }
+                $days = $sub;
+                unset($this->vacation['vacation'][$k]);
             }
         }
     }
@@ -163,8 +197,8 @@ class Vacation {
 
         $num_of_m = $this->workedMonth($prev_year, $calc_date);
         if(!$year_before){
-            // Granted vacation on the first working day.
-            $num_of_vacation = $num_of_m + 1 > self::PROBATION_MONTH_PERIOD ? self::VACATION_FULL_YEAR : $num_of_m * self::VACATION_PER_MONTH + self::VACATION_PER_MONTH;
+            $num_of_m += 1; // Granted vacation on the first working day.
+            $num_of_vacation = $num_of_m > self::PROBATION_MONTH_PERIOD ? self::VACATION_FULL_YEAR : $num_of_m * self::VACATION_PER_MONTH;
         }else{
             $num_of_vacation = $this->qualified === true ? self::VACATION_FULL_YEAR : $num_of_m * self::VACATION_PER_MONTH;
         }
@@ -265,6 +299,14 @@ class Vacation {
      */
     private function weekdays($start_date, $calc_date)
     {
+        // If not numeric then convert texts to unix timestamps
+        if (!is_int($start_date)) {
+            $start_date = strtotime($start_date);
+        }
+        if (!is_int($calc_date)) {
+            $calc_date = strtotime($calc_date);
+        }
+
         // Find day of week for 2 dates
         $start_d = date('N', $start_date);
         $calc_d = date('N', $calc_date);
@@ -280,6 +322,7 @@ class Vacation {
         // Calculate the days in the last week.
         $wd += min($calc_d, 5);
         $wd += $w*self::WORKDAYS_PER_WEEK;
+        $this->addMessage(sprintf("From %s to %s you took %d leave", date('Y-m-d',$start_date), date('Y-m-d', $calc_date), $wd));
         return $wd;
     }
 }
