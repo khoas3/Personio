@@ -29,13 +29,13 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group input-group ">
-                            <input type="text" id="hire_date" name="hire_date" class="form-control date"  placeholder="Hire date">
+                            <input type="text" id="hire_date" name="hire_date" class="form-control date" data-validation="required" placeholder="Hire date">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group input-group">
-                            <input type="text" id="calculation_date" name="calculation_date" class="form-control date" placeholder="Calculation date">
+                            <input type="text" id="calculation_date" name="calculation_date" class="form-control date" data-validation="required" placeholder="Calculation date">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                         </div>
                     </div>
@@ -90,48 +90,8 @@
 
 <!-- Jquery date picker -->
 <script src="../../Resources/js/jquery-ui.min.js"></script>
-<script type="text/javascript">
-    $('.date').datepicker({
-        changeMonth: true,
-        changeYear: true,
-        dateFormat: "yy-mm-dd"
-    });
-    // Submit form by Ajax.
-    $('form').submit(function(e){
-        e.preventDefault();
-        $.ajax({
-            method: "POST",
-            url: '/calculation',
-            data: $( this ).serializeArray()
-        }).done(function(msg){
-            console.log(msg);
-        })
-        ;
-        return false;
-    });
-    // Add more vacation period.
-    $('#add-more').on('click', function(e){
-        e.preventDefault();
-        var rm_btn_html = '<div class="col-md-2">';
-            rm_btn_html+='<a href="#" class="btn bg-danger remove-btn">Remove</a>';
-            rm_btn_html+='</div>';
-        var rm_btn = $(rm_btn_html);
-        var $clone = $('.vacation-block').first().clone(true).append(rm_btn);
-        var datepicker = $clone.find("input[type='text']");
-        $.each(datepicker, function(){
-            var $this = $(this);
-            $this.datepicker("destroy");
-            $this.removeAttr("id");
-            $this.datepicker();
-            $this.val("");
-        });
-        $('.vacation-period').append($clone);
-        rm_btn.click(function(e){
-            e.preventDefault()
-            $(this).closest('div .vacation-block').remove();
-        });
-    });
 
-</script>
+<!-- Jquery application -->
+<script src="../../Resources/js/custom.js"></script>
 </body>
 </html>
