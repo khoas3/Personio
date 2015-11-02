@@ -41,13 +41,14 @@ $( document ).ready(function() {
     };
     // Submit form by Ajax.
     $('form').submit(function(e){
-        $('.bs-example').empty();
         e.preventDefault();
         if(form_validate()){
             $.ajax({
                 method: "POST",
                 url: '/calculation',
                 data: $( this ).serializeArray()
+            }).success(function(){
+                $('.bs-example').empty();
             }).done(function(msg){
                 decorator(msg);
             });
