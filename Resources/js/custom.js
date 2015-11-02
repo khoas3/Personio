@@ -1,5 +1,22 @@
 
 $( document ).ready(function() {
+    $('#hire_date').datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "yy-mm-dd",
+        onClose: function( selectedDate ) {
+            $( "#calculation_date" ).datepicker( "option", "minDate", selectedDate );
+        }
+    });
+    $('#calculation_date').datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: "yy-mm-dd",
+        onClose: function( selectedDate ) {
+            $( "#hire_date" ).datepicker( "option", "maxDate", selectedDate );
+        }
+    });
+
     $('.date').datepicker({
         changeMonth: true,
         changeYear: true,

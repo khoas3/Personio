@@ -134,6 +134,9 @@ class Vacation {
         if(!empty($start_vacation) && !empty($end_vacation)){
             $days = 0;
             foreach($start_vacation as $k => $v){
+                if(strtotime($v) - $this->calc_date > 0){
+                    continue;
+                }
                 $days += $this->weekdays($start_vacation[$k], $end_vacation[$k]);
             }
             // Subtract prev year first if has.
