@@ -30,8 +30,8 @@ class Vacation {
     /**
      * Constructor
      *
-     * @param DateTime $start_date
-     * @param DateTime $calc_date
+     * @param $start_date
+     * @param $calc_date
      */
 	public function __construct($start_date, $calc_date)
 	{
@@ -88,8 +88,7 @@ class Vacation {
     }
 
     /**
-     * @param $key
-     * @param $val
+     * @param $msg
      * @return $this
      */
     public function addMessage($msg)
@@ -242,7 +241,6 @@ class Vacation {
         if (!is_int($time2)) {
             $time2 = strtotime($time2);
         }
-
         // If time1 is bigger than time2
         // Then swap time1 and time2
         if ($time1 > $time2) {
@@ -269,7 +267,6 @@ class Vacation {
                 $ttime = strtotime("+" . $add . " " . $interval, $time1);
                 $looped++;
             }
-
             $time1 = strtotime("+" . $looped . " " . $interval, $time1);
             $diffs[$interval] = $looped;
         }
@@ -282,13 +279,12 @@ class Vacation {
             if ($count >= $precision) {
                 break;
             }
-
             // Add value and interval to times array
             $times[$interval] = $value;
             $count++;
         }
 
-        // Return string with times
+        // Return array with times
         return $times;
     }
 
