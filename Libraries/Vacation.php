@@ -317,7 +317,7 @@ class Vacation {
         // Calculate the days in the last week.
         $wd += min($calc_d, 5);
         $wd += $w*self::WORKDAYS_PER_WEEK;
-        $this->addMessage(sprintf("From %s to %s you took %d leave", date('Y-m-d',$start_date), date('Y-m-d', $calc_date), $wd));
+        $this->addMessage(sprintf("From %s to %s you took %d leave(s)", date('Y-m-d',$start_date), date('Y-m-d', $calc_date), $wd));
         return $wd;
     }
 }
