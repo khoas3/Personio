@@ -148,7 +148,7 @@ class Vacation {
                     $this->vacation['vacation'][$k] = $sub;
                     break;
                 }
-                $days = $sub;
+                $days = 0 - $sub;// Convert positive to negative number.
                 unset($this->vacation['vacation'][$k]);
             }
         }
