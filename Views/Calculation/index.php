@@ -29,13 +29,13 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group input-group ">
-                            <input type="text" id="hire_date" name="hire_date" class="form-control date" data-validation="required" placeholder="Hire date">
+                            <input type="text" id="hire_date" name="hire_date" class="form-control" data-validation="required" placeholder="Hire date">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group input-group">
-                            <input type="text" id="calculation_date" name="calculation_date" class="form-control date" data-validation="required" placeholder="Calculation date">
+                            <input type="text" id="calculation_date" name="calculation_date" class="form-control" data-validation="required" placeholder="Calculation date">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
                         </div>
                     </div>
