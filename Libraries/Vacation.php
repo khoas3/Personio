@@ -6,7 +6,7 @@ class Vacation {
 	const WORKDAYS_PER_WEEK = 5;
 	const VACATION_FULL_YEAR = 24;
 	const VACATION_PER_MONTH = 2;
-	const PROBATION_MONTH_PERIOD = 6;
+	const PROBATION_PERIOD_MONTH = 6;
     const DATE_TO_REMOVE = '04-01'; // m-d (Vacation will be lost from 1st of April 2016 forward.)
 
     /**
@@ -114,7 +114,7 @@ class Vacation {
                     $this->removeVacation($i);
                 }
             }else{
-                // year period greater than or equal 1
+                // Year period greater than or equal 1.
                 $interval = $this->dateDiff($start_date, $calc_date);
                 if($interval >= 1){
                     for($i=$calc_year-2; $i>=$start_year;$i--){
@@ -169,7 +169,7 @@ class Vacation {
     {
         $num_of_m = $this->workedMonth($start_date, $calc_date);
         $num_of_m += 1; // Granted vacation on the first working day.
-        if($num_of_m > self::PROBATION_MONTH_PERIOD)
+        if($num_of_m > self::PROBATION_PERIOD_MONTH)
         {
             $this->qualified = true;
         }
@@ -197,7 +197,7 @@ class Vacation {
         $num_of_m = $this->workedMonth($prev_year, $calc_date);
         if(!$year_before){
             $num_of_m += 1; // Granted vacation on the first working day.
-            $num_of_vacation = $num_of_m > self::PROBATION_MONTH_PERIOD ? self::VACATION_FULL_YEAR : $num_of_m * self::VACATION_PER_MONTH;
+            $num_of_vacation = $num_of_m > self::PROBATION_PERIOD_MONTH ? self::VACATION_FULL_YEAR : $num_of_m * self::VACATION_PER_MONTH;
         }else{
             $num_of_vacation = $this->qualified === true ? self::VACATION_FULL_YEAR : $num_of_m * self::VACATION_PER_MONTH;
         }
@@ -283,7 +283,6 @@ class Vacation {
             $times[$interval] = $value;
             $count++;
         }
-
         // Return array with times
         return $times;
     }
