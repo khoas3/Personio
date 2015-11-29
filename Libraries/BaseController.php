@@ -1,7 +1,8 @@
 <?php
 
-//namespace Personio\Libraries;
+namespace Personio\Libraries;
 
+use Personio\Libraries\View;
 
 abstract class BaseController {
     protected $urlValues;

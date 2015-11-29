@@ -1,6 +1,6 @@
 <?php 
 
-//namespace Personio\Libraries;
+namespace Personio\Libraries;
 
 class Vacation {
 	const WORKDAYS_PER_WEEK = 5;
@@ -79,12 +79,16 @@ class Vacation {
 
     /**
      * @param $year
+     * @return int
      */
     public function removeVacation($year)
     {
+        $needRemove = 0;
         if(isset($this->vacation['vacation'][$year])){
+            $needRemove = $this->vacation['vacation'][$year];
             unset($this->vacation['vacation'][$year]);
         }
+        return $needRemove;
     }
 
     /**
@@ -107,22 +111,25 @@ class Vacation {
         $calc_year = date('Y', $calc_date );
         $range_of_year = $calc_year - $start_year;
         $endpoint = strtotime($calc_year.'-'.self::DATE_TO_REMOVE);
+        $beSubtract = 0;
         if($range_of_year > 0){
             // Calc date greater than or equal endpoint.
             if($calc_date - $endpoint >= 0){
                 for($i=$calc_year-1;$i>=$start_year; $i--){
-                    $this->removeVacation($i);
+                    $beSubtract += $this->removeVacation($i);
                 }
             }else{
                 // Year period greater than or equal 1.
                 $interval = $this->dateDiff($start_date, $calc_date);
                 if($interval >= 1){
                     for($i=$calc_year-2; $i>=$start_year;$i--){
-                        $this->removeVacation($i);
+                        $beSubtract += $this->removeVacation($i);
                     }
                 }
             }
         }
+
+        return $beSubtract;
     }
 
     /**
@@ -159,9 +166,10 @@ class Vacation {
     public function calculate()
     {
         // Calculate num of vacation.
-        $this->accumulatedVacation($this->start_date, $this->calc_date);
+        $cal = $this->accumulatedVacation($this->start_date, $this->calc_date);
         // Vacation will be lost from 1st of April 2016 forward.
-        $this->clearVacation($this->start_date, $this->calc_date);
+        $sub = $this->clearVacation($this->start_date, $this->calc_date);
+        return $cal - $sub;
     }
 
     /**

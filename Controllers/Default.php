@@ -1,4 +1,7 @@
 <?php
+namespace Personio\Controllers;
+
+use Personio\Libraries\BaseController;
 
 class DefaultController extends BaseController {
     public function __construct($action, $urlValues)

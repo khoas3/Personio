@@ -1,6 +1,6 @@
 <?php
 
-//namespace Personio\Libraries;
+namespace Personio\Libraries;;
 
 
 class View {

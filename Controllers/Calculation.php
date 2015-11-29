@@ -1,6 +1,9 @@
 <?php
 
-//namespace Personio\Controllers;
+namespace Personio\Controllers;
+
+use Personio\Libraries\BaseController;
+use Personio\Libraries\Vacation;
 
 class CalculationController extends BaseController {
     /**

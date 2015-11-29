@@ -1,6 +1,6 @@
 <?php
 
-//namespace Personio\Libraries;
+namespace Personio\Libraries;
 
 
 class Loader {
@@ -32,7 +32,8 @@ class Loader {
     public function createController() {
         //check our requested controller's class file exists and require it if so
         if (file_exists("Controllers/" . $this->controllerName . ".php")) {
-            require("Controllers/" . $this->controllerName . ".php");
+//            use 'Personio\Controllers\\'.$this->controllerName.'Controller';
+//            require("Controllers/" . $this->controllerName . ".php");
         }
 
         // Does the class exist?
